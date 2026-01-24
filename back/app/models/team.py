@@ -8,9 +8,8 @@ class Team(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True)
-    players = relationship("Player", back_populates="team")
+    players = relationship("Player", back_populates="team", cascade="all, delete-orphan")
     matches_played = Column(Integer)
-    statics = relationship("Player", viewonly=True)
 
      # Relationship with matches as home team
     matches_as_home = relationship("Match", foreign_keys="Match.team_1_id", back_populates="team_1")
