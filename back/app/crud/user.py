@@ -35,13 +35,6 @@ def delete_user(db: Session, user_id: int):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     
-    # Delete the team assigned to the user if it exists
-    if db_user.team:
-        db.delete(db_user.team)
-
-    for tournament in db_user.tournaments:
-        db.delete(tournament)
-    
     # Delete user
     db.delete(db_user)
     db.commit()

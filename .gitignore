@@ -1,0 +1,21 @@
+
+# Ignoruj venv wszędzie
+**/venv/
+**/.venv/
+**/env/
+
+# Python cache (kompilowane pliki)
+**/__pycache__/
+**/*.pyc
+
+# Baza danych
+**/*.db
+**/*.sqlite3
+
+# Zmienne środowiskowe
+**/.env
+
+# Logi i IDE
+*.log
+.idea/
+.vscode/

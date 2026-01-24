@@ -12,11 +12,6 @@ class UserService:
         self.db = db
 
     def create_user(self, user: UserCreate) -> models.User:
-
-
-        if not re.search(r'(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*\d).{8,}', user.password):
-            raise HTTPException(status_code=400, detail="Password must be at least 8 characters long, contain one uppercase letter, one special character, and one digit")
-
         return create_user(self.db, user)
 
     def get_all_users(self) -> list[models.User]:
@@ -29,8 +24,6 @@ class UserService:
         db_user = self.get_user(user_id)
         if not db_user:
             raise HTTPException(status_code=404, detail="User not found")
-
-
 
         return update_user(self.db, user, user_id)
 
@@ -48,10 +41,7 @@ class UserService:
         
         if not verify_password(password, db_user.password):
             raise HTTPException(status_code=400, detail="Old password is incorrect")
-        
-        if db_user.password and not re.search(r'(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*\d).{8,}', new_password):
-            raise HTTPException(status_code=400, detail="Password must be at least 8 characters long, contain one uppercase letter, one special character, and one digit")
-    
+
         db_user.password = hash_password(new_password)
         self.db.commit()
         self.db.refresh(db_user)
