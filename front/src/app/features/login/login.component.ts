@@ -22,7 +22,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
   ) {}
 
   login(): void {
@@ -42,7 +42,7 @@ export class LoginComponent {
             this.errorMessage = 'Invalid email or password';
           }
           return throwError(error);
-        })
+        }),
       )
       .subscribe((response) => {
         if (response && response.access_token) {
