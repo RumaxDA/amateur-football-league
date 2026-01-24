@@ -13,5 +13,5 @@ class User(Base):
     is_referee = Column(Boolean, default=False)
 
     
-    team = relationship("Team", back_populates="creator", uselist=False)
-    tournaments = relationship("Tournament", back_populates="creator")
+    team = relationship("Team", back_populates="creator", uselist=False, cascade="all, delete-orphan")
+    tournaments = relationship("Tournament", back_populates="creator", cascade="all, delete-orphan")
