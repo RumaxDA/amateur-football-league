@@ -17,7 +17,9 @@ def get_player(db: Session, player_id: int):
     return db.query(models.Player).filter(models.Player.id == player_id).first()
 
 def update_player(db: Session, player: PlayerUpdate, player_id: int):
-    db.query(models.Player).filter(models.Player.id == player_id).update(player.dict())
+    update_data = player.dict(exclude_unset=True)
+    
+    db.query(models.Player).filter(models.Player.id == player_id).update(update_data)
     db.commit()
     return get_player(db=db, player_id=player_id)
 
