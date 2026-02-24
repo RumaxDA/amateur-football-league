@@ -8,10 +8,12 @@ from typing import Optional
 
 router = APIRouter(prefix="/matches", tags=["matches"])
 
+def get_match_service(db: Session = Depends(get_db)):
+    return MatchService(db)
+
 @router.post("/", response_model=Match)
-def create_match(match: MatchCreate, db: Session = Depends(get_db)):
-    match_service = MatchService(db)
-    return match_service.create_match(match)
+def create_match(match: MatchCreate, service: MatchService = Depends(get_match_service)):
+    return service.create_match(match)
 
 @router.get("/", response_model=list[Match])
 def read_matches(limit: Optional[int]= None, db: Session = Depends(get_db)):
