@@ -29,7 +29,7 @@ export class TeamService {
   constructor(
     private envService: Environment,
     private snackBar: MatSnackBar,
-    private sessionService: SessionService
+    private sessionService: SessionService,
   ) {}
 
   generateTeamFields(team: Team): FormField[] {
@@ -93,21 +93,24 @@ export class TeamService {
     { key: 'shots_on_target', header: 'Shots On Target' },
   ];
 
-  createTeam(formData: FormData): Promise<Team> {
+  createTeam(teamName: string): Promise<Team> {
     const token = this.sessionService.getToken();
 
     return axios
-      .post(`${this.envService.base_url}/teams`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+      .post(
+        `${this.envService.base_url}/teams/`,
+        { name: teamName },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      })
-      .then((response) => {
-        return response.data;
-      })
+      )
+      .then((response) => response.data)
       .catch((error) => {
         console.error('Error creating team:', error);
+        throw error;
       });
   }
 
@@ -186,7 +189,7 @@ export class TeamService {
   async teamExistsById(teamId: number): Promise<boolean> {
     try {
       const response = await axios.get(
-        `${this.envService.base_url}/teams/${teamId}`
+        `${this.envService.base_url}/teams/${teamId}`,
       );
       return response.status === 200;
     } catch (error) {
@@ -218,7 +221,7 @@ export class TeamService {
   async getTeamNamebyId(teamId: number): Promise<string> {
     try {
       const response = await axios.get(
-        `${this.envService.base_url}/teams/${teamId}`
+        `${this.envService.base_url}/teams/${teamId}`,
       );
       return response.data.name;
     } catch (error) {
@@ -230,7 +233,7 @@ export class TeamService {
   async getTeamIdByUserId(userId: number): Promise<number> {
     try {
       const response = await axios.get(
-        `${this.envService.base_url}/teams/creator/${userId}`
+        `${this.envService.base_url}/teams/creator/${userId}`,
       );
       return response.data.id;
     } catch (error) {
