@@ -11,7 +11,7 @@ class TeamService:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_team(self, team: TeamCreate, creator_id: str) -> models.Team:
+    def create_team(self, team: TeamCreate, creator_id: int) -> models.Team:
         if len(team.name) > 30:
             raise HTTPException(status_code=400, detail="Team name cannot exceed 30 characters")
         
@@ -32,7 +32,7 @@ class TeamService:
     def delete_team(self, team_id: int) -> Optional[models.Team]:
         return delete_team(self.db, team_id)
 
-    def get_team_by_user_id(self, user_id: str) -> Optional[models.Team]:
+    def get_team_by_user_id(self, user_id: int) -> Optional[models.Team]:
         stmt = select(Team).where(Team.creator_id == user_id)
         result = self.db.execute(stmt)
         return result.scalars().first()
