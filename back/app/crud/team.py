@@ -3,7 +3,7 @@ from app.schemas.team import TeamCreate, TeamUpdate
 from app.models import team as models
 from sqlalchemy.orm import joinedload
 
-def create_team(db: Session, team: TeamCreate, creator_id: str):
+def create_team(db: Session, team: TeamCreate, creator_id: int):
     db_team = models.Team(creator_id = creator_id, **team.dict())
     db.add(db_team)
     db.commit()
