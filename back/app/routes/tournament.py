@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.schemas.tournament import TournamentCreate, TournamentUpdate, Tournament, TournamentTeams
+from app.schemas.tournament import TournamentCreate, TournamentUpdate, Tournament
+from app.schemas.team import TournamentTeams
 from app.services.tournament import TournamentService
 from app.utils.auth import get_current_user
 from app.database import get_db
