@@ -16,13 +16,11 @@ class Tournament(Base):
 
     #Many-to-many relationship with teams
     teams = relationship("Team", secondary=team_tournament, back_populates="tournaments")
-    team_id = Column(Integer, ForeignKey("teams.id"))
     
     #One-to-many relationship with matches
-    matches = relationship("Match", back_populates="tournament")
-
+    matches = relationship("Match", back_populates = "tournament", cascade = "all, delete-orphan")
     creator_id = Column(Integer, ForeignKey("users.id"))
     creator = relationship("User", back_populates="tournaments")
 
-    actions = relationship("Action", back_populates="tournaments")
-    tournament_table = relationship("TournamentTable", back_populates="tournament")
+    actions = relationship("Action", back_populates="tournaments", cascade = "all, delete-orphan")
+    tournament_table = relationship("TournamentTable", back_populates="tournament", cascade="all, delete-orphan")
