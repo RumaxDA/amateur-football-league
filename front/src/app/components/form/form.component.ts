@@ -68,7 +68,7 @@ export class FormComponent implements OnInit {
     private tournamentService: TournamentService,
     private matchService: MatchService,
     private router: Router,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
   ) {
     this.form = this.formBuilder.group({ team_id: [null] });
     if (dialogData) {
@@ -160,7 +160,7 @@ export class FormComponent implements OnInit {
     this.fields = this.tournamentService
       .generateTournamentEditFields(this.tournament, this.teams)
       .filter((field) =>
-        ['name', 'amount_of_teams', 'date_of_tournament'].includes(field.name)
+        ['name', 'amount_of_teams', 'date_of_tournament'].includes(field.name),
       );
     this.initializeForm(this.fields);
   }
@@ -169,7 +169,7 @@ export class FormComponent implements OnInit {
     this.fields = this.playerService
       .generatePlayerFields(this.player)
       .filter((field) =>
-        ['name', 'last_name', 'date_of_birth', 'gender'].includes(field.name)
+        ['name', 'last_name', 'date_of_birth', 'gender'].includes(field.name),
       );
     this.initializeForm(this.fields);
     this.form.addControl('team_id', new FormControl(this.player.team_id || ''));
@@ -179,7 +179,7 @@ export class FormComponent implements OnInit {
     this.fields = this.playerService
       .generatePlayerFields(this.player)
       .filter((field) =>
-        ['name', 'last_name', 'date_of_birth'].includes(field.name)
+        ['name', 'last_name', 'date_of_birth'].includes(field.name),
       );
     this.initializeForm(this.fields);
     this.form.addControl('team_id', new FormControl(this.player.team_id || ''));
@@ -187,7 +187,7 @@ export class FormComponent implements OnInit {
 
   async initializeTournamentForm(): Promise<void> {
     this.fields = this.tournamentService.generateTournamentFields(
-      this.tournament
+      this.tournament,
     );
     this.initializeForm(this.fields);
     this.form.addControl('creator_id', new FormControl(''));
@@ -313,11 +313,8 @@ export class FormComponent implements OnInit {
       });
       return;
     }
-    const formData = new FormData();
-    formData.append('name', this.form.value.name);
-    formData.append('league_id', this.form.value.league_id);
 
-    await this.teamService.createTeam(formData);
+    await this.teamService.createTeam(teamName);
 
     this.snackBar.open('Team created successfully', 'Close', {
       duration: 5000,
@@ -340,7 +337,7 @@ export class FormComponent implements OnInit {
     const playerExists = await this.playerService.playerExists(
       playerName,
       playerLastName,
-      formattedDate
+      formattedDate,
     );
 
     const teamId = this.form.value.team_id;
@@ -383,7 +380,7 @@ export class FormComponent implements OnInit {
     const playerExists = await this.playerService.playerExists(
       playerName,
       playerLastName,
-      formattedDate
+      formattedDate,
     );
 
     const teamId = this.form.value.team_id;
@@ -431,9 +428,8 @@ export class FormComponent implements OnInit {
     this.form.patchValue({ creator_id: Number(userId) });
 
     const tournamentName = this.form.value.name;
-    const tournamentExists = await this.tournamentService.tournamentExists(
-      tournamentName
-    );
+    const tournamentExists =
+      await this.tournamentService.tournamentExists(tournamentName);
     if (tournamentExists) {
       this.snackBar.open('Tournament already exists', 'Close', {
         duration: 2000,
@@ -442,7 +438,7 @@ export class FormComponent implements OnInit {
     }
 
     const activeTournaments = await this.userService.getUserActiveTournament(
-      Number(userId)
+      Number(userId),
     );
     if (activeTournaments.length > 0) {
       this.snackBar.open('You have already active tournament', 'Close', {
@@ -462,7 +458,7 @@ export class FormComponent implements OnInit {
         'Close',
         {
           duration: 5000,
-        }
+        },
       );
       return;
     }
@@ -507,9 +503,8 @@ export class FormComponent implements OnInit {
     this.form.patchValue({ creator_id: Number(userId) });
 
     const tournamentName = this.form.value.name;
-    const tournamentExists = await this.tournamentService.tournamentExists(
-      tournamentName
-    );
+    const tournamentExists =
+      await this.tournamentService.tournamentExists(tournamentName);
     if (tournamentExists) {
       this.snackBar.open('Tournament already exists', 'Close', {
         duration: 2000,
@@ -518,7 +513,7 @@ export class FormComponent implements OnInit {
     }
 
     const activeTournaments = await this.userService.getUserActiveTournament(
-      Number(userId)
+      Number(userId),
     );
 
     if (activeTournaments.length === 0) {
@@ -541,7 +536,7 @@ export class FormComponent implements OnInit {
         'Close',
         {
           duration: 5000,
-        }
+        },
       );
       return;
     }
@@ -552,7 +547,7 @@ export class FormComponent implements OnInit {
     try {
       await this.tournamentService.updateTournament(
         activeTournamentId,
-        this.form.value
+        this.form.value,
       );
       this.snackBar.open('Tournament updated successfully', 'Close', {
         duration: 5000,
@@ -618,7 +613,7 @@ export class FormComponent implements OnInit {
         'Close',
         {
           duration: 2000,
-        }
+        },
       );
       return;
     }
