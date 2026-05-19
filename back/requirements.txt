@@ -3,3 +3,7 @@ passlib==1.7.4
 pydantic==2.12.5
 python_jose==3.3.0
 SQLAlchemy==2.0.30
+psycopg2-binary==2.9.12
+pydantic_settings==2.14.1
+dotenv==0.9.9
+uvicorn==0.47.0
