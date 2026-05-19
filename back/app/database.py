@@ -1,17 +1,26 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from app.settings import SQLALCHEMY_DATABASE_URL
+from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session
+from app.core.config import settings
 
-Base = declarative_base()
+engine = create_engine(
+    settings.DATABASE_URL,
+    echo=True
+)
+
+SessionLocal = sessionmaker(
+    bind=engine,
+    autocommit=False,
+    autoflush=False,
+    expire_on_commit=False
+)
 
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+class Base(DeclarativeBase):
+    pass
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db():
-    db = SessionLocal()
+    db: Session = SessionLocal()
     try:
         yield db
     finally:
