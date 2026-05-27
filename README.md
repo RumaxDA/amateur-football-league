@@ -23,7 +23,7 @@ The project uses a modern, fully-containerized architecture with REST API commun
 
 - PostgreSQL 17
 - Docker & Docker Compose
-- Nginx (Reverse Proxy & SPA Routing)
+- Nginx (SPA Routing)
 
 ## Database model
 
