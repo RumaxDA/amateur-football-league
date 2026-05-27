@@ -30,10 +30,8 @@ redoc_url = "/redoc" if settings.ENVIRONMENT == "dev" else None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Tworzenie tabel przy starcie aplikacji
     Base.metadata.create_all(bind=engine)
     yield
-    # Zamknięcie połączeń z bazą danych przy wyłączaniu aplikacji
     engine.dispose()
 
 
