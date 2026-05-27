@@ -67,11 +67,11 @@ cp .env.example .env
 docker compose up --build
 ```
 
-### Access points
+### Access points  
 
-**Frontend:** http://localhost:4200
-**Backend API Docs (Swagger UI):** http://localhost:8000/docs
-**Database:** Accessible via port 5432 on your localhost.
+**Frontend:** http://localhost:4200  
+**Backend API Docs (Swagger UI):** http://localhost:8000/docs  
+**Database:** Accessible via port 5432 on your localhost.  
 
 ### Project Structure
 
